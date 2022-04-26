@@ -1,0 +1,11 @@
+*{
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+}
+
+table, th, tr {
+    border: 1px solid blue;
+    border-collapse: collapse;
+    padding: 5px;
+}
