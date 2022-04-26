@@ -48,9 +48,9 @@
           
           $apiResult = json_decode($json, true);
           
-        //   echo "<pre>";
-        //   var_dump($apiResult);
-        //   echo "</pre>";
+          echo "<pre>";
+          var_dump($apiResult);
+          echo "</pre>";
 
           $arr = $apiResult["data"];
           $realResult = $arr[0];
@@ -150,6 +150,8 @@
                         // echo "<hr><pre>";
                         // var_dump($table);
                         // echo "</pre>";
+                        
+                        // TABLE OF COUNTRIES
 
                         foreach($table as $code => $num){
                             echo "<tr>";
@@ -183,7 +185,53 @@
                             echo "<th>" . $num . "</th>";
                             echo "</tr>";
                         }
+                        
                         echo "<tr><th colspan=\"2\">Total Visits:</th><th>" . $totalVisists . "</th></tr>";
+
+                        // TIME ZONE VISITS
+                        $arr6to15 = array();
+                        $arr15to21 = array();
+                        $arr21to24 = array();
+                        $arr24to6 = array();
+
+                        foreach($visits as $visit){
+                            $temp = explode(" ", $visit['created']);
+                            $time = explode(":", $temp[1]);
+
+                            $hour = intval($time[0]);
+                            
+                            if( ($hour > 0) && ($hour < 6) ){
+                                array_push($arr24to6, $visit);
+                            }else if ( ($hour > 5) && ($hour < 15) ){
+                                array_push($arr6to15, $visit);
+                            }else if ( ($hour > 14) && ($hour < 21) ){
+                                array_push($arr15to21, $visit);
+                            }else if ( ($hour > 20) && ($hour < 24) ){
+                                array_push($arr21to24, $visit);
+                            }
+
+                            // echo "cas: " . $time[0] . " - " . $time[1] . " - " . $time[2] . "<hr>";
+                        }
+
+                        echo "<tr>";
+                            echo "<th colspan=\"2\">00:00 - 06:00</th>";
+                            echo "<th>" . sizeof($arr24to6) . "</th>";
+                        echo "</tr>";
+
+                        echo "<tr>";
+                            echo "<th colspan=\"2\">06:00 - 15:00</th>";
+                            echo "<th>" . sizeof($arr6to15) . "</th>";
+                        echo "</tr>";
+
+                        echo "<tr>";
+                            echo "<th colspan=\"2\">15:00 - 21:00</th>";
+                            echo "<th>" . sizeof($arr15to21) . "</th>";
+                        echo "</tr>";
+
+                        echo "<tr>";
+                            echo "<th colspan=\"2\">21:00 - 24:00</th>";
+                            echo "<th>" . sizeof($arr21to24) . "</th>";
+                        echo "</tr>";
                     ?>
                 </tbody>
             </table>

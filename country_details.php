@@ -50,15 +50,35 @@
 <body>
     <h1>Details about <?php echo $countryName;?></h1>
     <div class="container">
-        <?php
-            foreach($visits as $visit){
-                echo "<div class=\"country-detail-row\">";
-                echo "<p>";
-                echo "Location searched: " . $visit['user_input'] . " (" . $visit['latitude'] . ", " . $visit['longitude'] . ") at " . $visit['created'];
-                echo "</p>";
-                echo "</div>";
-            }
-        ?>
+        <div class="all-visits">
+            <?php
+                foreach($visits as $visit){
+                    echo "<div class=\"country-detail-row\">";
+                    echo "<p>";
+                    echo "Location searched: " . $visit['user_input'] . " (" . $visit['latitude'] . ", " . $visit['longitude'] . ") at " . $visit['created'];
+                    echo "</p>";
+                    echo "</div>";
+                }
+            ?>
+        </div>
+        <div class="map-by-cities">
+            <?php
+
+                $byCities = array();
+                foreach($visits as $visit){
+                    // go trough all visits
+                    
+                    // map how many visits there are from each city (based on country-code)
+                    $keyToAdd = $visit['alpha_3'];
+                    
+                    if (array_key_exists($keyToAdd, $table)) {
+                        $table[$keyToAdd]++;
+                    }else{
+                        $table += [$keyToAdd => 1];
+                    }
+                }
+            ?>
+        </div>
     </div>
 </body>
 </html>
