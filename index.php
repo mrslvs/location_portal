@@ -131,36 +131,52 @@
                         $stmt->execute([]);
                         $visits = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                        $table = array();
+                        $totalVisists = sizeof($visits);
 
-                        $i = 0;
+                        $table = array();
                         foreach($visits as $visit){
-                            // echo $visit['user_input'] . "<br>";
-                            // insert first item to map
+                            // go trough all visits
                             
+                            // map how many visits there are from each country (based on country-code)
                             $keyToAdd = $visit['alpha_3'];
+                            
                             if (array_key_exists($keyToAdd, $table)) {
                                 $table[$keyToAdd]++;
                             }else{
                                 $table += [$keyToAdd => 1];
                             }
-                            
-                            $i++;
                         }
 
                         echo "<hr><pre>";
                         var_dump($table);
                         echo "</pre>";
 
-                        // foreach($visits as $visit){
-                        //     echo $visit['user_input'] . "<br>";
-                        // }
+                        foreach($table as $code => $num){
+                            echo "<tr>";
+                            // add flag
+
+                            // pictures are saved like this: Czech_Republic.png
+                            // get country name from database besed on country-code
+                            $sql = 'SELECT name FROM country WHERE alpha_3 = ?';
+                            $stmt = $conn->prepare($sql);
+                            $stmt->execute([ $code ]);
+                            $countryNameWithSpace = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                            // echo "Toto je coutnry name so spacom " . $countryNameWithSpace['name'] . "<br>";
+                            // replace spaces in name with "_"
+                            $countryNameToGetFlag = str_replace(" ", "_", $countryNameWithSpace['name']);
+                            // echo "Toto je bez spacu: " . $countryNameToGetFlag . "<hr>";
+
+                            $flagLocation = "./flags_style1_small/" . $countryNameToGetFlag . ".png";
+                            echo "<th><img src=\"" . $flagLocation . "\"></th>";
+
+                            // add country name
+                            echo "<th>". $countryNameWithSpace . "</th>";
+
+                            // add count
+                            echo "<th>" . $num . "</th>";
+                        }
                     ?>
-                    <tr>
-                        <th>Flag</th>
-                        <th>Slovensko</th>
-                        <th>1</th>
-                    </tr>
                 </tbody>
             </table>
         </div>
