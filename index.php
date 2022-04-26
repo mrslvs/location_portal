@@ -6,9 +6,9 @@
     // ed25c51bb25b270db9e89e5ce42ca165
 
     // debugging, delete afterwards
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
+    // ini_set('display_errors', 1);
+    // ini_set('display_startup_errors', 1);
+    // error_reporting(E_ALL);
 
     // DB connection
     require_once("conf.php");
@@ -23,7 +23,7 @@
         echo "Connection failed: " . $e->getMessage();
     }
 
-    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['address-input'])){
         $locationInput = $_POST['address-input'];
         // echo $locationInput;
 
@@ -48,9 +48,9 @@
           
           $apiResult = json_decode($json, true);
           
-          echo "<pre>";
-          var_dump($apiResult);
-          echo "</pre>";
+        //   echo "<pre>";
+        //   var_dump($apiResult);
+        //   echo "</pre>";
 
           $arr = $apiResult["data"];
           $realResult = $arr[0];
@@ -89,7 +89,7 @@
             <form action="index.php" method="post">
                 <label for="address-input">Input your address</label>
                 <input type="text" name="address-input" id="address-input">
-                <input type="submit" value="Enter address">
+                <input type="submit" value="Enter address" class="btn">
             </form>
         </div>
         <div class="weather">
@@ -114,7 +114,7 @@
             </p>
         </div>
         <div class="statistics">
-            <h2>Statistics</h2>
+            <h2>D) Statistics</h2>
             <table>
                 <thead>
                     <tr>
@@ -176,7 +176,7 @@
                             echo "<th>";
                             echo "<form action=\"country_details.php\" method=\"get\">";
                             echo "<input type=\"hidden\" name=\"kodik\" id=\"kodik\"      value=\" $code \"     >";
-                            echo "<input type=\"submit\" value=\" $countryNameToGetFlag \"   >";
+                            echo "<input type=\"submit\" value=\" $countryNameToGetFlag \" class=\"input-btn\"  >";
                             echo "</form>";
                             echo "</th>";
                             // echo "<th>". $countryNameWithSpace['name'] . "</th>";
