@@ -3,6 +3,7 @@
     // COUNTRY-CAPITAL TABLE FROM: https://www.html-code-generator.com/mysql/country-name-table
     // SMALL FLAGS FORM: https://dynamospanish.com/flags/downloads/
     // ========================================================================
+    // ed25c51bb25b270db9e89e5ce42ca165
 
     // debugging, delete afterwards
     ini_set('display_errors', 1);
@@ -13,8 +14,41 @@
         $locationInput = $_POST['address-input'];
         echo $locationInput;
 
-        $getFlag = "./flags_style1_small/". $locationInput . ".png";
-        echo "<img src=\"" . $getFlag . "\">";
+        // display flag
+        // $getFlag = "./flags_style1_small/". $locationInput . ".png";
+        // echo "<img src=\"" . $getFlag . "\">";
+
+        // use API to get information from input
+        $queryString = http_build_query([
+            'access_key' => 'ed25c51bb25b270db9e89e5ce42ca165',
+            'query' => $locationInput,
+            'output' => 'json',
+            'limit' => 1,
+          ]);
+          
+          $ch = curl_init(sprintf('%s?%s', 'http://api.positionstack.com/v1/forward', $queryString));
+          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+          
+          $json = curl_exec($ch);
+          
+          curl_close($ch);
+          
+          $apiResult = json_decode($json, true);
+          
+          echo "<pre>";
+          var_dump($apiResult);
+          echo "</pre>";
+
+          $arr = $apiResult["data"];
+          $realResult = $arr[0];
+          echo "<br><hr><hr><hr><pre>Country is:" . $realResult['country'];
+
+          // extract data to DB
+          $latitude = $realResult['latitude'];
+          $longitude = $realResult['longitude'];
+          $country = $realResult['country'];
+          $code = $realResult['country_code'];
+
     }
 ?>
 
