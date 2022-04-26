@@ -171,7 +171,13 @@
                             echo "<th><img src=\"" . $flagLocation . "\"></th>";
 
                             // add country name
-                            echo "<th>". $countryNameWithSpace['name'] . "</th>";
+                            echo "<th>";
+                            echo "<form action=\"country_details.php\" method=\"get\">";
+                            echo "<input type=\"hidden\" name=\"kodik\" id=\"kodik\"      value=\" $code \"     >";
+                            echo "<input type=\"submit\" value=\" $countryNameToGetFlag \"   >";
+                            echo "</form>";
+                            echo "</th>";
+                            // echo "<th>". $countryNameWithSpace['name'] . "</th>";
 
                             // add count
                             echo "<th>" . $num . "</th>";
