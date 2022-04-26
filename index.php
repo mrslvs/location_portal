@@ -147,9 +147,9 @@
                             }
                         }
 
-                        echo "<hr><pre>";
-                        var_dump($table);
-                        echo "</pre>";
+                        // echo "<hr><pre>";
+                        // var_dump($table);
+                        // echo "</pre>";
 
                         foreach($table as $code => $num){
                             echo "<tr>";
@@ -171,11 +171,13 @@
                             echo "<th><img src=\"" . $flagLocation . "\"></th>";
 
                             // add country name
-                            echo "<th>". $countryNameWithSpace . "</th>";
+                            echo "<th>". $countryNameWithSpace['name'] . "</th>";
 
                             // add count
                             echo "<th>" . $num . "</th>";
+                            echo "</tr>";
                         }
+                        echo "<tr><th colspan=\"2\">Total Visits:</th><th>" . $totalVisists . "</th></tr>";
                     ?>
                 </tbody>
             </table>
