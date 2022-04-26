@@ -25,7 +25,7 @@
 
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $locationInput = $_POST['address-input'];
-        echo $locationInput;
+        // echo $locationInput;
 
         // display flag
         // $getFlag = "./flags_style1_small/". $locationInput . ".png";
@@ -48,9 +48,9 @@
           
           $apiResult = json_decode($json, true);
           
-          echo "<pre>";
-          var_dump($apiResult);
-          echo "</pre>";
+        //   echo "<pre>";
+        //   var_dump($apiResult);
+        //   echo "</pre>";
 
           $arr = $apiResult["data"];
           $realResult = $arr[0];
