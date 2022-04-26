@@ -64,19 +64,21 @@
         <div class="map-by-cities">
             <?php
 
+                // ========================== CHANGE DATABASE ==========================
+
                 $byCities = array();
-                foreach($visits as $visit){
-                    // go trough all visits
+                // foreach($visits as $visit){
+                //     // go trough all visits
                     
-                    // map how many visits there are from each city (based on country-code)
-                    $keyToAdd = $visit['alpha_3'];
+                //     // map how many visits there are from each city (based on country-code)
+                //     $keyToAdd = $visit['alpha_3'];
                     
-                    if (array_key_exists($keyToAdd, $table)) {
-                        $table[$keyToAdd]++;
-                    }else{
-                        $table += [$keyToAdd => 1];
-                    }
-                }
+                //     if (array_key_exists($keyToAdd, $table)) {
+                //         $table[$keyToAdd]++;
+                //     }else{
+                //         $table += [$keyToAdd => 1];
+                //     }
+                // }
             ?>
         </div>
     </div>
