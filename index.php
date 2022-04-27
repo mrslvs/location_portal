@@ -6,9 +6,9 @@
     // ed25c51bb25b270db9e89e5ce42ca165
 
     // debugging, delete afterwards
-    // ini_set('display_errors', 1);
-    // ini_set('display_startup_errors', 1);
-    // error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
 
     // DB connection
     require_once("conf.php");
@@ -61,12 +61,13 @@
           $longitude = $realResult['longitude'];
           $country = $realResult['country'];
           $code = $realResult['country_code'];
+          $county = $realResult['county'];
 
 
           //insert data to DB
-          $sql = 'INSERT INTO visit (user_input, latitude, longitude, country_name, alpha_3) VALUES (?, ?, ?, ?, ?)';
+          $sql = 'INSERT INTO visit (user_input, latitude, longitude, country_name, county, alpha_3) VALUES (?, ?, ?, ?, ?, ?)';
           $stmt = $conn->prepare($sql);                      
-          $result = $stmt->execute([ $locationInput, $latitude, $longitude, $country, $code ]);
+          $result = $stmt->execute([ $locationInput, $latitude, $longitude, $country, $county, $code ]);
 
     }
 ?>
