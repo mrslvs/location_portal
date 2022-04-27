@@ -237,6 +237,9 @@
                 </tbody>
             </table>
         </div>
+        <div class="map">
+            <a href="./map.php">Show map</a>
+        </div>
     </div>
 </body>
 </html>
