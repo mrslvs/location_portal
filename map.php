@@ -115,11 +115,12 @@
         for (let i = 0; i < numOfPoints; i++) {
             markersMap.set(arrLat[i], arrLon[i]);
 
-            let temp = new ol.Feature({
-                geometry: new ol.geom.Point(ol.proj.fromLonLat([arrLat[i], arrLon[i]])),   
-            });
-
-            markersArr.push(temp);
+            markersArr.push(
+                new ol.Feature({
+                    // don't know why it has to be reversed (Longitude, Latitude) but... it iz what it iz
+                    geometry: new ol.geom.Point(ol.proj.fromLonLat([arrLon[i], arrLat[i]])),   
+                })
+            )
         }
 
         console.log(markersArr);
@@ -134,9 +135,8 @@
 
         var layer = new ol.layer.Vector({
             source: new ol.source.Vector({
-                features: [
-                    mark1, mark2
-                ]
+                features: 
+                    markersArr
             })
         });
 
