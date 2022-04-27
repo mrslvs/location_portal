@@ -111,11 +111,18 @@
 
         // ================ MARKERS ================
         const markersMap = new Map();
+        const markersArr = [];
         for (let i = 0; i < numOfPoints; i++) {
             markersMap.set(arrLat[i], arrLon[i]);
+
+            let temp = new ol.Feature({
+                geometry: new ol.geom.Point(ol.proj.fromLonLat([arrLat[i], arrLon[i]])),   
+            });
+
+            markersArr.push(temp);
         }
 
-        console.log(markersMap);
+        console.log(markersArr);
 
         let mark1 = new ol.Feature({
             geometry: new ol.geom.Point(ol.proj.fromLonLat([4.35247, 50.84673])),   
