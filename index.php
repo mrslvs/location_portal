@@ -61,7 +61,7 @@
           $longitude = $realResult['longitude'];
           $country = $realResult['country'];
           $code = $realResult['country_code'];
-          $county = $realResult['county'];
+          $county = $realResult['region'];
 
 
           //insert data to DB

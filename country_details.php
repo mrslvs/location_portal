@@ -64,24 +64,41 @@
             ?>
         </div>
         <div class="map-by-cities">
-            <?php
+            <table>
+                <thead>
+                    <tr>
+                        <th>County name</th>
+                        <th>Count of visits</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        // z nejakeho dovodu API vracia ako county Bratislava III aj pre ruzinov ci petrzalku
+                        // popripade nevracia ako county nic...
+                        // tak som to zmenil na "region" ktory api vyzera ze vracia vzdy
+                        $byCities = array();
+                        foreach($visits as $visit){
+                            // go trough all visits
+                            
+                            // map how many visits there are from each city (based on county)
+                            $keyToAdd = $visit['county'];
+                            
+                            if (array_key_exists($keyToAdd, $byCities)) {
+                                $byCities[$keyToAdd]++;
+                            }else{
+                                $byCities += [$keyToAdd => 1];
+                            }
+                        }
 
-                // ========================== CHANGE DATABASE ==========================
-
-                $byCities = array();
-                // foreach($visits as $visit){
-                //     // go trough all visits
-                    
-                //     // map how many visits there are from each city (based on country-code)
-                //     $keyToAdd = $visit['alpha_3'];
-                    
-                //     if (array_key_exists($keyToAdd, $table)) {
-                //         $table[$keyToAdd]++;
-                //     }else{
-                //         $table += [$keyToAdd => 1];
-                //     }
-                // }
-            ?>
+                        foreach($byCities as $city => $num){
+                            echo "<tr>";
+                                echo "<th>" . $city . "</th>";
+                                echo "<th>" . $num . "</th>";
+                            echo "</tr>";
+                        }
+                    ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </body>
