@@ -7,7 +7,7 @@
 }
 
 table, th, tr {
-    border: 3px solid blue;
+    border: 5px solid aqua;
     border-collapse: collapse;
     padding: 5px;
 }
@@ -62,4 +62,29 @@ h2{
     color: #333;
     font-size: 0.9rem;
     font-weight: bold;
+}
+
+.btn:hover {
+    background-color: rgb(163, 163, 163);
+}
+
+.weather-card{
+    border: 1px solid white;
+    padding: 20px;
+    font-size: 1.2rem;
+}
+
+.map {
+    margin: 35px;
+}
+
+.show-map-btn {
+    font-size: 1.8rem;
+    padding: 18px;
+    background-color: bisque;
+    color:#222;    
+}
+
+a:hover {
+    background-color: rgb(255, 195, 122);
 }

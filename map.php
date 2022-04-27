@@ -67,9 +67,36 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/css/ol.css" type="text/css">
     <style>
+
       .map {
         height: 400px;
-        width: 100%;
+        width: 80%;
+
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      h1 {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+      }
+      .home-btn {
+          border: 2px solid black;
+          padding: 4px;
+          background-color: #333;
+          color: white;
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-bottom: 10px;
+          margin-left: 30%;
+          margin-right: 30%;
+      }
+
+      .home-btn:hover {
+          background-color: #888;
       }
     </style>
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/build/ol.js"></script>
@@ -77,6 +104,7 @@
 </head>
 <body>
     <h1>Visits have been made from following locations:</h1>
+    <a href="./index.php" class="home-btn">Go home</a>
 
     <div id="map" class="map"></div>
 

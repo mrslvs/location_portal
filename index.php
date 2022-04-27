@@ -89,20 +89,97 @@
             <h2>A) Adress input</h2>
             <form action="index.php" method="post">
                 <label for="address-input">Input your address</label>
-                <input type="text" name="address-input" id="address-input">
+                <input type="text" name="address-input" id="address-input" placeholder="Enter your location">
                 <input type="submit" value="Enter address" class="btn">
             </form>
         </div>
         <div class="weather">
             <h2>B) Weather for your location:</h2>
+            <?php
+                function kelvin_to_celsius($given_value){
+                    // function from: https://gist.github.com/ugraphix/396166118e472a1385368e7f97f801ae
+                    $celsius=$given_value-273.15;
+                    return $celsius ;
+                }
+
+                if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['address-input'])){
+                    $weatherUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" .$latitude. "&lon=" .$longitude. "&appid=d78f558003ba3879c219caa081143cc8";
+
+                    $cn = curl_init();
+                    curl_setopt($cn, CURLOPT_RETURNTRANSFER, 1);
+                    curl_setopt($cn, CURLOPT_URL, $weatherUrl);    // get the contents using url
+                    $weatherdataToDecode = curl_exec($cn);
+                    curl_close($cn);
+                    $weatherdata = json_decode($weatherdataToDecode, true);
+
+                    // weather-location-info
+                    $weatherTimeZone = $weatherdata['timezone'];
+                    $weatherLat = $weatherdata['lat'];
+                    $weatherLon = $weatherdata['lon'];
+                    
+                    // weather-metrics
+                    $weatherTempNowKelvin = $weatherdata['current']['temp'];
+                    $weatherTempNowCelsius = kelvin_to_celsius($weatherTempNowKelvin);
+                    $weatherHumidity = $weatherdata['current']['humidity'];
+                    $weatherWindMPH = $weatherdata['current']['wind_speed'];
+                    $weatherWindKMH = $weatherWindMPH * 1.609344;
+
+                    // actual weather
+                    $weatherMain = $weatherdata['current']['weather'][0]['main'];
+                    $weatherDesc = $weatherdata['current']['weather'][0]['description'];
+
+                    // echo "<pre>";
+                    // var_dump($weatherdata['current']['weather'][0]['description']);
+                    // echo "</pre>";
+
+                    
+                }
+            ?>
+            <div class="weather-card">
+                <div class="weather-location-info">
+                <p><?php
+                    if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['address-input'])){
+                    echo $weatherTimeZone ." (" . $weatherLat . ", " . $weatherLon . ")";
+                    }
+                    ?>
+                </p>
+                </div>
+                <div class="weather-metrics">
+                    <p><?php 
+                        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['address-input'])){
+                            echo "Temperature: ".$weatherTempNowCelsius . "°C (" . $weatherTempNowKelvin . "°K)";
+                        }
+                        ?>
+                    </p>
+                    <p><?php 
+                        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['address-input'])){
+                            echo "Humidity: " . $weatherHumidity . "%";
+                        }
+                        ?>
+                    </p>
+                    <p><?php 
+                        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['address-input'])){
+                            echo "Wind: " . number_format((float)$weatherWindKMH, 2, '.', '') . " KM/H (" . $weatherWindMPH . " MP/H)";
+                        }
+                        ?>
+                    </p>
+                </div>
+                <div class="weather-actual">
+                    <p><?php 
+                        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['address-input'])){
+                            echo "What will be the weather like? - " . $weatherMain . " (" . $weatherDesc . ")";
+                        }
+                        ?></p>
+                </div>
+            </div>
         </div>
         <div class="location">
             <h2>C) Location details</h2>
-            <p>GPS coordinates: <?php if($_SERVER['REQUEST_METHOD'] == 'POST'){ echo "Latitude: ".$latitude.", Longtitude: ".$longitude;} ?></p>
-            <p>Country: <?php if($_SERVER['REQUEST_METHOD'] == 'POST'){ echo $country;} ?></p>
+            <p>GPS coordinates: <?php if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['address-input'])){ echo "Latitude: ".$latitude.", Longtitude: ".$longitude;} ?></p>
+            <p>Country: <?php if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['address-input'])){ echo $country;} ?></p>
             <p>Capital of this country: 
                 <?php 
-                    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                    if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['address-input'])){
                         // get capital of this country
                         $sql = 'SELECT capital FROM country WHERE alpha_3 = ?';
                         $stmt = $conn->prepare($sql);
@@ -238,7 +315,7 @@
             </table>
         </div>
         <div class="map">
-            <a href="./map.php">Show map</a>
+            <a href="./map.php" class="show-map-btn">Show map</a>
         </div>
     </div>
 </body>
